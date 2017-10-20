@@ -40,12 +40,12 @@ int main(int argc, char *argv[]){
         }
 
         // Must be even. Why? Google says so.
-        if(invSum%2 != 0){
-        	if(!SolveAStar(board, startRow, startCol, solution))
-        		printf("This puzzle exceeded iterations limit (A*).\n");
+        if(invSum%2 || !SolveAStar(board, startRow, startCol, solution))
+        		printf("This puzzle is not solvable.\n");
+        		// printf("This puzzle exceeded iterations limit (A*).\n");
         	// if(!SolveBruteForce(board, startRow, startCol, solution))
         	// 	printf("This puzzle exceeded iterations limit (BruteForce).\n");
-        } else printf("This puzzle is not solvable.\n");
+        //} else 
     }
 
     return 0;

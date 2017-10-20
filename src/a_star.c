@@ -67,8 +67,8 @@ void GetPathCost(uint64 board, int row, int col,
 	
 	if(depth + newBoardCost <= limit){
 		SetBoard(SetBoard(board, row+row2, col+col2, 0), 
-    							   row, col,
-    							   GetFrom(board, row+row2, col+col2));
+						   row, col,
+						   GetFrom(board, row+row2, col+col2));
     	uint64 newBoard = Swap(board, row, col, row2, col2);
 		
 		path->row = row2+row;
@@ -83,7 +83,7 @@ void GetPathCost(uint64 board, int row, int col,
 bool dfs(int depth, int totalCost, int limit, 
 		 int row, int col, uint64 board, char prev, char *solution){
 
-#ifdef debug
+#ifdef DEBUG
 	PrintBoard(board);
 	printf("\n");
 	getchar();
@@ -155,6 +155,7 @@ bool SolveAStar(uint64 board, int row, int col, char *solution){
 
     // PDF says to try up to 50 
 	for(int limit = totalCost; limit <= 50; limit++){
+		fprintf(stderr, "increasing limit\n");
 		bool done = dfs(0, totalCost, limit, row, col, board, 0, solution);
 		if(done){
 			printf("Time: %lf\n", (clock()-time)/((double) CLOCKS_PER_SEC));
