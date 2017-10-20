@@ -93,7 +93,7 @@ inline int deltaCost(uint64 board, int row, int col, int valueRow, int valueCol)
 	int expectedValueRow = (value-1)/4;
 	int expectedValueCol = (value-1)%4;
 	return ((abs(row-expectedValueRow) + abs(col-expectedValueCol)) - 
-			(abs(valueRow-expectedValueRow) - abs(valueCol-expectedValueCol)));
+			(abs(valueRow-expectedValueRow) + abs(valueCol-expectedValueCol)));
 }
 
 void PrintBoard(uint64 board){
@@ -124,11 +124,9 @@ void GetBlank(uint64 board, int *retRow, int *retCol){
 void GetPathCost(uint64 board, int row, int col, 
 				 int row2, int col2, char movement, Path *path, 
 				 int totalCost, int depth, int limit, int *validPaths){
-	
 	int newBoardCost = totalCost+deltaCost(board, row, col, row+row2, col+col2);
 	
 	if(depth + newBoardCost <= limit){
-    	
     	uint64 newBoard = SetBoard(SetBoard(board, row+row2, col+col2, 0), 
     							   row, col,
     							   GetFrom(board, row+row2, col+col2));
@@ -139,16 +137,15 @@ void GetPathCost(uint64 board, int row, int col,
 		path->newBoardCost = newBoardCost;
 		path->board = newBoard;
 		(*validPaths)++;
-
-		fprintf(stderr, "[debug](GetPathCost) Path cost for \'%c\' : %d\n", movement, path->newBoardCost);
 	}
 }
 
 bool dfs(int depth, int totalCost, int limit, 
 		 int row, int col, uint64 board, char prev){
-	fprintf(stderr, "\n[debug](DFS): blank space in [%d, %d]\t(depth: %d)\n", row, col, depth);
+
 	PrintBoard(board);
-	fprintf(stderr, "\n");
+	printf("\n");
+
 	Path paths[4];
 	int validPaths = 0;
 	
@@ -167,7 +164,7 @@ bool dfs(int depth, int totalCost, int limit,
 		GetPathCost(board, row, col, -1, 0, 'U', &paths[validPaths], 
 					totalCost, depth, limit, &validPaths);
 	
-	if(prev != 'U' && row <= 2)
+	if(prev != 'U' && row < 3)
 		GetPathCost(board, row, col, 1, 0, 'D', &paths[validPaths], 
 					totalCost, depth, limit, &validPaths);
 	
@@ -175,7 +172,7 @@ bool dfs(int depth, int totalCost, int limit,
 		GetPathCost(board, row, col, 0, -1, 'L', &paths[validPaths], 
 					totalCost, depth, limit, &validPaths);
 	
-	if(prev != 'L' && col <= 2)
+	if(prev != 'L' && col < 3)
 		GetPathCost(board, row, col, 0, 1, 'R', &paths[validPaths], 
 					totalCost, depth, limit, &validPaths);
 
@@ -190,11 +187,10 @@ bool dfs(int depth, int totalCost, int limit,
 				maxidx = j;
 			}
 		}
-		
+	
 		solution[depth] = paths[maxidx].movement;
 
 		// Next step
-		fprintf(stderr, "[debug](DFS): moving \'%c\'\n", solution[depth]);
   		bool done = dfs(depth+1, paths[maxidx].newBoardCost, limit, 
 						paths[maxidx].row, paths[maxidx].col, 
 			            paths[maxidx].board, solution[depth]);
@@ -207,13 +203,12 @@ bool dfs(int depth, int totalCost, int limit,
 		maxidx = (maxidx+1)%validPaths;
 	}
 
-	fprintf(stderr, "[debug](DFS): No path found, returning false\n");
 	return false;
 }
 
 bool Solve(uint64 board, int row, int col){
 
-	getchar();
+	// getchar();
 
     // min moves needed to transit to goal state
 	int totalCost = FullCost(board);
