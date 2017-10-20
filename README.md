@@ -1,7 +1,7 @@
 <!-- Auto generated README -->
 
-# Dupla
-Lucas Alexandre Soares N°USP 9293265<space><space>
+Dupla:
+Lucas Alexandre Soares N°USP 9293265  
 Giovanna Oliveira Guimarães N°USP 9293693
 
 # Makefile
