@@ -1,6 +1,6 @@
 /* Priority Queue source file
-	Lucas Alexandre Soares nusp 9293265
-	Giovanna Oliveira Guimarães nusp 9293693
+	Lucas Alexandre Soares
+	n usp 9293265
 */
 
 #include <stdio.h>
@@ -45,7 +45,7 @@ PQUEUE *PQ_CreateQueue(uint capacity, uint heapOrder,
 
 	pqueue->size = 0;
 	pqueue->capacity = capacity;
-	pqueue->item = calloc(capacity, sizeof(void **));
+	pqueue->item = (void **) calloc(capacity, sizeof(void **));
 	pqueue->cmp = cmp;
 
 	if(heapOrder) pqueue->Heapify = &_internal_MaxHeapify;
@@ -158,7 +158,3 @@ void *PQ_Dequeue(PQUEUE *pqueue) {
 	pqueue->Heapify(pqueue, 0);
 	return item;
 }
-
-
-
-

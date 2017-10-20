@@ -1,40 +1,39 @@
-/* A* search include file
-	Lucas Alexandre Soares n usp 9293265
-	Giovanna Oliveira Guimarães nusp 9293693
-*/
+// /* A* search include file
+// 	Lucas Alexandre Soares n usp 9293265
+// 	Giovanna Oliveira Guimarães nusp 9293693
+// */
 
-#ifndef _A_STAR_
-#define _A_STAR_
+// #ifndef _A_STAR_
+// #define _A_STAR_
 
-#include <stdlib.h>
-#include "boolean.h"
+// #include <stdlib.h>
 
-// Static or object approach?
-void SetHeuristic(float (*h)(int)) { heuristic = h; }
+// // Static or object approach?
+// void SetHeuristic(float (*h)(int)) { heuristic = h; }
 
-// Object
-struct {
+// // Object
+// struct {
 
-	float (*heuristic)(int);
-	bool (*solve)(void);
+// 	float (*heuristic)(int);
+// 	bool (*solve)(void);
 
-} A_STAR;
+// } A_STAR;
 
-A_STAR *CreateAStarSolver(){
+// A_STAR *CreateAStarSolver(){
 	
-}
+// }
 
-void DestroyAStarSolver(A_STAR **as){
+// void DestroyAStarSolver(A_STAR **as){
 	
-}
+// }
 
-// Static
-float (*heuristic)(int);
+// // Static
+// float (*heuristic)(int);
 
-bool A_Star(){
+// bool A_Star(){
 
-	/*...*/
-	heuristic(/*...*/);
-}
+// 	/*...*/
+// 	heuristic(/*...*/);
+// }
 
-#endif
+// #endif
