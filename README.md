@@ -1,6 +1,6 @@
 <!-- Auto generated README -->
 
-Dupla: 
+# Dupla
 Lucas Alexandre Soares N°USP 9293265<space><space>
 Giovanna Oliveira Guimarães N°USP 9293693
 
