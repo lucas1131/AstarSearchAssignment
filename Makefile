@@ -49,10 +49,10 @@ LIBS=$(USER_LIBS) $(DEFAULT_LIBS)
 ifdef debug
 	CFLAGS += -Wall -Wextra -g -D DEBUG
 	DEBUGGER=valgrind $(DBGFLAGS) 
-endif
-
-
+all: checkname checkdirs clean cleanobj main
+else
 all: checkname checkdirs clean main
+endif
 
 # Compile directives
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
