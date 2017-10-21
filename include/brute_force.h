@@ -8,6 +8,7 @@
 
 #include "utils.h"
 
+bool IsSolved(uint64 board);
 bool SolveBruteForce(uint64 board, int row, int col, char *solution);
 
 #endif

@@ -30,8 +30,8 @@ int FullCost(uint64 board){
 			int value = board & 15;
 			board >>= 4;
 
-            // skip the empty cell as once all other cells are in place
-            // then the empty cell must also be in place.
+			// Skip the empty cell as once all other cells are in place
+			// Then the empty cell must also be in place.
 			if(value != 0){
 				int expectedValueRow = (value-1) / 4;
 				int expectedValueCol = (value-1) % 4;
@@ -44,7 +44,7 @@ int FullCost(uint64 board){
 
 // A* heuristic
 // Compute the cost of placing cell at [valueRow, valueCol] at it's correct pos
-inline int deltaCost(uint64 board, int row, int col, int valueRow, int valueCol){
+inline int DeltaCost(uint64 board, int row, int col, int valueRow, int valueCol){
 	int value = GetFrom(board, valueRow, valueCol);
 	int expectedValueRow = (value-1)/4;
 	int expectedValueCol = (value-1)%4;
@@ -52,24 +52,15 @@ inline int deltaCost(uint64 board, int row, int col, int valueRow, int valueCol)
 			(abs(valueRow-expectedValueRow) + abs(valueCol-expectedValueCol)));
 }
 
-uint64 Swap(uint64 board, int srcRow, int srcCol, int destRow, int destCol){
-	return SetBoard(SetBoard(board, srcRow+destRow, srcCol+destCol, 0), 
-					srcRow, srcCol, 
-					GetFrom(board, srcRow+destRow, srcCol+destCol));
-}
-
-/*Calculate cost (min moves) of new state using delta method to save time */ 	
+/* Update board cost using DeltaCost */ 	
 // row2 and col2 are the position of the cell to be moved
 void GetPathCost(uint64 board, int row, int col, 
 				 int row2, int col2, char movement, Path *path, 
 				 int totalCost, int depth, int limit, int *validPaths){
-	int newBoardCost = totalCost+deltaCost(board, row, col, row+row2, col+col2);
+	int newBoardCost = totalCost+DeltaCost(board, row, col, row+row2, col+col2);
 	
 	if(depth + newBoardCost <= limit){
-		SetBoard(SetBoard(board, row+row2, col+col2, 0), 
-						   row, col,
-						   GetFrom(board, row+row2, col+col2));
-    	uint64 newBoard = Swap(board, row, col, row2, col2);
+		uint64 newBoard = Swap(board, row, col, row2, col2);
 		
 		path->row = row2+row;
 		path->col = col2+col;
@@ -93,9 +84,9 @@ bool dfs(int depth, int totalCost, int limit,
 	Path paths[4];
 	int validPaths = 0;
 
-    // cost of current state is zero means we reached the goal
+	// cost of current state is zero means we reached the goal
 	if(totalCost == 0){
-		solution[depth] = 0;
+		solution[depth] = '\0';
 		printf("%s\n", solution);
 		return true;
 	}
@@ -121,8 +112,10 @@ bool dfs(int depth, int totalCost, int limit,
 	int i, j;
 	int maxidx = 0;
 
-	// Find lowest cost path 
+	// Try all valid paths
 	for(i = 0; i < validPaths; i++){
+		
+		// Find lowest cost path 
 		for(j = 0; j < validPaths; j++){
 			if( (paths[j].movement >= 0) && 
 				(paths[j].newBoardCost < paths[maxidx].newBoardCost) ){
@@ -133,11 +126,11 @@ bool dfs(int depth, int totalCost, int limit,
 		solution[depth] = paths[maxidx].movement;
 
 		// Next step
-  		bool done = dfs(depth+1, paths[maxidx].newBoardCost, limit, 
+		bool done = dfs(depth+1, paths[maxidx].newBoardCost, limit, 
 						paths[maxidx].row, paths[maxidx].col, 
-			            paths[maxidx].board, solution[depth], solution);
+						paths[maxidx].board, solution[depth], solution);
 
-  		// If done return
+		// If done return
 		if(done) return true;
 
 		// Invalidate path
@@ -150,15 +143,15 @@ bool dfs(int depth, int totalCost, int limit,
 
 bool SolveAStar(uint64 board, int row, int col, char *solution){
 
-	#ifndef DEBUG
-		// Only compute execution time if not in debug mode
-		clock_t time = clock();
-	#endif
+#ifndef DEBUG
+	// Only compute execution time if not in debug mode
+	clock_t time = clock();
+#endif
 
-    // min moves needed to transit to goal state
+	// min moves needed to transit to goal state
 	int totalCost = FullCost(board);
 
-    // PDF says to try up to 50 
+	// PDF says to try up to 50 
 	for(int limit = totalCost; limit <= 50; limit++){
 		bool done = dfs(0, totalCost, limit, row, col, board, 0, solution);
 		if(done){

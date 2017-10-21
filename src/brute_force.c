@@ -1,80 +1,77 @@
-// /* Brute force solution source file
-// 	Lucas Alexandre Soares n usp 9293265
-// 	Giovanna Oliveira Guimarães nusp 9293693
-// */
+/* Brute force solution source file
+	Lucas Alexandre Soares n usp 9293265
+	Giovanna Oliveira Guimarães nusp 9293693
+*/
 
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-// #include "brute_force.h"
-// #include "utils.h"
+#include "brute_force.h"
+#include "utils.h"
 
-// typedef struct path{
-// 	uint64 board;
-// 	int newBoardCost;
-// 	char movement;
-// 	char row, col;
-// } Path;
+bool IsSolved(uint64 board){
 
-// bool Backtracking(int depth, int totalCost, int limit, 
-// 		 int row, int col, uint64 board, char prev, char *solution){
+	int index;
 
-// #ifdef debug
-// 	PrintBoard(board);
-// 	printf("\n");
-// 	printf("\nPress ENTER...");
-// 	getchar();
-// #endif
+	// Check if blank is bottom right, if not, then it is not solved
+	if((board >> 4*15) != 0) return false;
 
-// 	Path paths[4];
-// 	int validPaths = 0;
+	for(index = 0; index < 15; index ++){
 
-//     // cost of current state is zero means we reached the goal
-// 	if(totalCost == 0){
-// 		solution[depth] = 0;
-// 		printf("%s\n", solution);
-// 		return true;
-// 	}
+		int value = board & 15;
+		board >>= 4;
+
+		if(value != index+1) return false;
+	}
+	return true;
+}
+
+bool Backtrack(int depth, int row, int col, uint64 board, char prev, char *solution){
+
+#ifdef debug
+	PrintBoard(board);
+	printf("\n");
+	printf("\nPress ENTER...");
+	getchar();
+#endif
+
+	// Limit at 50 steps
+	if(depth > 50) return false;
+	if(IsSolved(board)){
+		solution[depth] = '\0';
+		printf("%s\n", solution);
+		return true;
+	}
 	
+	solution[depth] = 'L';
+
+	// Next step
+	// bool done = Backtrack(depth+1, paths[maxidx].newBoardCost, limit, 
+	// 						 paths[maxidx].row, paths[maxidx].col, 
+	// 						 paths[maxidx].board, solution[depth], solution);
+
+	// If done return
+	// if(done) return true;
+
+	// Invalidate path
+	// paths[maxidx].movement = -1;
+
+	return false;
+}
+
+bool SolveBruteForce(uint64 board, int row, int col, char *solution){
+
+#ifndef DEBUG
+	// Only compute execution time if not in debug mode
+	clock_t time = clock();
+#endif
+
+	bool done = Backtrack(0, row, col, board, 0, solution);
 	
-// 	solution[depth] = paths[maxidx].movement;
+#ifndef DEBUG
+	if(done) printf("Time: %lf\n", (clock()-time)/((double) CLOCKS_PER_SEC));
+#endif
 
-// 	// Next step
-// 		bool done = dfs(depth+1, paths[maxidx].newBoardCost, limit, 
-// 					paths[maxidx].row, paths[maxidx].col, 
-// 		            paths[maxidx].board, solution[depth], solution);
-
-// 		// If done return
-// 	if(done) return true;
-
-// 	// Invalidate path
-// 	paths[maxidx].movement = -1;
-
-// 	return false;
-// }
-
-// bool SolveBruteForce(uint64 board, int row, int col, char *solution){
-
-// 	#ifndef DEBUG
-// 		// Only compute execution time if not in debug mode
-// 		clock_t time = clock();
-// 	#endif
-
-//     // min moves needed to transit to goal state
-// 	int totalCost = FullCost(board);
-
-//     // PDF says to try up to 50 
-// 	for(int limit = totalCost; limit <= 50; limit++){
-// 		bool done = Backtracking(0, totalCost, limit, row, col, board, 0, solution);
-// 		if(done){
-
-// 			#ifndef DEBUG
-// 				printf("Time: %lf\n", (clock()-time)/((double) CLOCKS_PER_SEC));
-// 			#endif
-
-// 			return true;
-// 		}
-// 	}
-// 	return false;
-// }
+	return done;
+}

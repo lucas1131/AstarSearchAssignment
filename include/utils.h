@@ -31,5 +31,6 @@ inline int GetFrom(uint64 board, int row, int col){
 
 void GetBlank(uint64 board, int *retRow, int *retCol);
 void PrintBoard(uint64 board);
+uint64 Swap(uint64 board, int srcRow, int srcCol, int destRow, int destCol);
 
 #endif
