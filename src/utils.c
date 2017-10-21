@@ -12,7 +12,7 @@ void PrintBoard(uint64 board){
 	int i;
 	for(i = 0; i < 16; i++){
 		if((board & 15) == 0) printf("%-2c ", ' ');
-		else printf("%-2d ", board & 15);
+		else printf("%-2lld ", board & 15);
 		board >>= 4;
 		if((i+1) % 4 == 0) printf("\n");
 	}
