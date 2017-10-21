@@ -48,8 +48,8 @@ int main(int argc, char *argv[]){
 		if(invSum%2 == 0){
 
 			// Solve brute force
-			// if(!SolveBruteForce(board, startRow, startCol, solution))
-			// 	printf("This puzzle exceeded iterations limit (Brute Force).\n");
+			if(!SolveBruteForce(board, startRow, startCol, solution))
+				printf("This puzzle exceeded iterations limit (Brute Force).\n");
 			
 			// Solve with A*
 			if(!SolveAStar(board, startRow, startCol, solution))

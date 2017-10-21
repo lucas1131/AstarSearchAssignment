@@ -29,34 +29,76 @@ bool IsSolved(uint64 board){
 
 bool Backtrack(int depth, int row, int col, uint64 board, char prev, char *solution){
 
-#ifdef debug
+#ifdef DEBUG
 	PrintBoard(board);
 	printf("\n");
 	printf("\nPress ENTER...");
 	getchar();
 #endif
 
-	// Limit at 50 steps
-	if(depth > 50) return false;
+	// Limit at 50 recursive calls - each cell has 4 possible movements so for
+	// max depth at 50, we have 200 recursive for each cell
+	fprintf(stderr, "[debug](Backtrack): Depth: %d\n", depth);
+	if(depth > 50) {	
+		fprintf(stderr, "[debug](Backtrack): Path exceeded maximum depth\n");
+		return false;
+	}
 	if(IsSolved(board)){
+		
+		fprintf(stderr, "\n[debug](Backtrack): Board is solved!\n");
+		PrintBoard(board);
+		printf("\n");
+
 		solution[depth] = '\0';
 		printf("%s\n", solution);
 		return true;
 	}
-	
-	solution[depth] = 'L';
 
-	// Next step
-	// bool done = Backtrack(depth+1, paths[maxidx].newBoardCost, limit, 
-	// 						 paths[maxidx].row, paths[maxidx].col, 
-	// 						 paths[maxidx].board, solution[depth], solution);
+	/* 	Next step
+		Call backtrack for each possible movement while avoiding going back
+	*/
 
-	// If done return
-	// if(done) return true;
+	// Move up
+	if(prev != 'D' && row){
 
-	// Invalidate path
-	// paths[maxidx].movement = -1;
+		fprintf(stderr, "[debug](Backtrack): Moving up\n\n");
+		solution[depth] = 'U';
+		Swap(board, row, col, -1, 0);
+		if(Backtrack(depth+1, -1, 0, board, solution[depth], solution))
+			return true;
+	}
 
+	// Move down
+	if(prev != 'U' && row < 3){
+
+		fprintf(stderr, "[debug](Backtrack): Moving down\n\n");
+		solution[depth] = 'D';
+		Swap(board, row, col, 1, 0);
+		if(Backtrack(depth+1, 1, 0, board, solution[depth], solution))
+			return true;
+	}
+
+	// Move left
+	if(prev != 'R' && col){
+
+		fprintf(stderr, "[debug](Backtrack): Moving left\n\n");
+		solution[depth] = 'L';
+		Swap(board, row, col, 0, -1);
+		if(Backtrack(depth+1, 0, -1, board, solution[depth], solution))
+			return true;
+	}
+
+	// Move right
+	if(prev != 'L' && col < 3){
+
+		fprintf(stderr, "[debug](Backtrack): Moving right\n\n");
+		solution[depth] = 'R';
+		Swap(board, row, col, 0, 1);
+		if(Backtrack(depth+1, 0, 1, board, solution[depth], solution))
+			return true;
+	}
+
+	// No path found
 	return false;
 }
 
