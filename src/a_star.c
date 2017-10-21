@@ -148,7 +148,7 @@ bool SolveAStar(uint64 board, int row, int col, char *solution){
 	clock_t time = clock();
 #endif
 
-	// min moves needed to transit to goal state
+	// Min moves needed to transit to goal state
 	int totalCost = FullCost(board);
 
 	// PDF says to try up to 50 
@@ -157,7 +157,7 @@ bool SolveAStar(uint64 board, int row, int col, char *solution){
 		if(done){
 
 			#ifndef DEBUG
-				printf("Time: %lf\n", (clock()-time)/((double) CLOCKS_PER_SEC));
+				printf("A* time: %lf\n", (clock()-time)/((double) CLOCKS_PER_SEC));
 			#endif
 
 			return true;

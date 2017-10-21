@@ -35,7 +35,7 @@ bool Backtrack(int depth, int row, int col, uint64 board, char prev, char *solut
 	PrintBoard(board);
 	printf("\n");
 	printf("\nPress ENTER...");
-	// getchar();
+	getchar();
 #endif
 
 	uint64 newBoard;
@@ -43,11 +43,7 @@ bool Backtrack(int depth, int row, int col, uint64 board, char prev, char *solut
 	// Limit at 50 recursive calls - each cell has 4 possible movements so for
 	// max depth at 50, we have 200 recursive for each cell
 	if(depth > MAX_DEPTH) return false;
-	if(IsSolved(board)){
-		
-		PrintBoard(board);
-		printf("\n");
-
+	if(IsSolved(board)){		
 		solution[depth] = '\0';
 		printf("%s\n", solution);
 		return true;
@@ -62,7 +58,7 @@ bool Backtrack(int depth, int row, int col, uint64 board, char prev, char *solut
 
 		solution[depth] = 'U';
 		newBoard = Swap(board, row, col, -1, 0);
-		if(Backtrack(depth+1, row-1, col+0, newBoard, solution[depth], solution))
+		if(Backtrack(depth+1, row-1, col, newBoard, solution[depth], solution))
 			return true;
 	}
 
@@ -71,7 +67,7 @@ bool Backtrack(int depth, int row, int col, uint64 board, char prev, char *solut
 
 		solution[depth] = 'D';
 		newBoard = Swap(board, row, col, 1, 0);
-		if(Backtrack(depth+1, row+1, col+0, newBoard, solution[depth], solution))
+		if(Backtrack(depth+1, row+1, col, newBoard, solution[depth], solution))
 			return true;
 	}
 	
@@ -80,7 +76,7 @@ bool Backtrack(int depth, int row, int col, uint64 board, char prev, char *solut
 
 		solution[depth] = 'R';
 		newBoard = Swap(board, row, col, 0, 1);
-		if(Backtrack(depth+1, row+0, col+1, newBoard, solution[depth], solution))
+		if(Backtrack(depth+1, row, col+1, newBoard, solution[depth], solution))
 			return true;
 	}
 	
@@ -89,7 +85,7 @@ bool Backtrack(int depth, int row, int col, uint64 board, char prev, char *solut
 
 		solution[depth] = 'L';
 		newBoard = Swap(board, row, col, 0, -1);
-		if(Backtrack(depth+1, row+0, col-1, newBoard, solution[depth], solution))
+		if(Backtrack(depth+1, row, col-1, newBoard, solution[depth], solution))
 			return true;
 	}
 
@@ -107,7 +103,7 @@ bool SolveBruteForce(uint64 board, int row, int col, char *solution){
 	bool done = Backtrack(0, row, col, board, 0, solution);
 	
 #ifndef DEBUG
-	if(done) printf("Time: %lf\n", (clock()-time)/((double) CLOCKS_PER_SEC));
+	if(done) printf("Brute force time: %lf\n", (clock()-time)/((double) CLOCKS_PER_SEC));
 #endif
 
 	return done;
