@@ -86,6 +86,7 @@ bool dfs(int depth, int totalCost, int limit,
 #ifdef DEBUG
 	PrintBoard(board);
 	printf("\n");
+	printf("Press ENTER...\n");
 	getchar();
 #endif
 
@@ -149,16 +150,23 @@ bool dfs(int depth, int totalCost, int limit,
 
 bool SolveAStar(uint64 board, int row, int col, char *solution){
 
-	clock_t time = clock();
+	#ifndef DEBUG
+		// Only compute execution time if not in debug mode
+		clock_t time = clock();
+	#endif
+
     // min moves needed to transit to goal state
 	int totalCost = FullCost(board);
 
     // PDF says to try up to 50 
 	for(int limit = totalCost; limit <= 50; limit++){
-		fprintf(stderr, "increasing limit\n");
 		bool done = dfs(0, totalCost, limit, row, col, board, 0, solution);
 		if(done){
-			printf("Time: %lf\n", (clock()-time)/((double) CLOCKS_PER_SEC));
+
+			#ifndef DEBUG
+				printf("Time: %lf\n", (clock()-time)/((double) CLOCKS_PER_SEC));
+			#endif
+
 			return true;
 		}
 	}

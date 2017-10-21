@@ -24,6 +24,11 @@ int main(int argc, char *argv[]){
 		// Check if its solvable
         for(i = 0; i < 16; i++){
             scanf("%d", &value);
+            
+            #ifdef DEBUG
+            	getchar();	// eat '\n' for step-by-step execution
+            #endif
+            	
             board = SetBoard(board, i/4, i%4, value);
 			has[value] = 1;
 
