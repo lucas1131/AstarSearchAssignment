@@ -1,7 +1,12 @@
-/* A* search source file
-	Lucas Alexandre Soares n usp 9293265
-	Giovanna Oliveira Guimarães nusp 9293693
-*/
+/* IDA* search source file
+ * Gabriel Simmel Nascimento             9050232
+ * Giovanna Oliveira Guimarães           9293693
+ * José Augusto Noronha de Menezes Neto  9293049
+ * Julia Diniz Ferreira                  9364865
+ * Lucas Alexandre Soares                9293265
+ * Otávio Luis Aguiar                    9293518
+ * Rafael Augusto Monteiro               9293095
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
