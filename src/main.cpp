@@ -48,8 +48,11 @@ int main(int argc, char *argv[]){
 		// 	printf("This puzzle exceeded iterations limit (Brute Force).\n");
 		
 		// Solve with A*
-		if(!SolveAStar(board, startRow, startCol, solution))
-			printf("This puzzle exceeded iterations limit (A*).\n");
+		i = 0;
+		while(i--){
+			if(!SolveAStar(board, startRow, startCol, solution))
+				printf("This puzzle exceeded iterations limit (A*).\n");
+		}
 
 	} else printf("This puzzle is not solvable.\n");
 
