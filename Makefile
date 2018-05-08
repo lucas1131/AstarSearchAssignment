@@ -129,8 +129,6 @@ readme: checkname
 	@echo "" >> $(NAME)/README.md
 	@echo "" >> $(NAME)/README.md
 	@echo "Set \`debug=1\` to compile/run in debug mode  " >> $(NAME)/README.md
-	@echo "Set \`IN=filename\` to feed a file to the program  " >> $(NAME)/README.md
-	@echo "Set \`OUT=filename\` to write program output to designed file  " >> $(NAME)/README.md
 	@echo "Use \`CFLAGS+=flags\` to add compiler flags  " >> $(NAME)/README.md
 	@echo "Set \`CC=compiler\` to change compiler  " >> $(NAME)/README.md
 	@echo "Set \`NAME=name\` to set project name  " >> $(NAME)/README.md

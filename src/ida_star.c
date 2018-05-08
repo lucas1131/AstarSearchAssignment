@@ -7,13 +7,16 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "a_star.h"
+#include "ida_star.h"
 #include "utils.h"
 
 #define abs(a)  ((a) >= 0 ? (a): -(a))
 
 typedef struct path{
-	uint64 board;
+	// Using a 64bit integer we have a 4x4 table with 16 spaces for 4bit values
+	// which is exactly the size for our board since a 4bit value can represent
+	// from 0 to 16! THIS MAKES IT GO FAST
+	uint64 board;	
 	int newBoardCost;
 	char movement;
 	char row, col;

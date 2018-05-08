@@ -3,8 +3,8 @@
 	Giovanna Oliveira Guimarães nusp 9293693
 */
 
-#ifndef _A_STAR_
-#define _A_STAR_
+#ifndef _IDA_STAR_
+#define _IDA_STAR_
 
 #include "utils.h"
 
